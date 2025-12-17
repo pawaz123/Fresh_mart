@@ -1,0 +1,45 @@
+<a href="{% url 'store:product_detail' product.slug %}" class="block group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden h-full flex flex-col">
+    <div class="relative aspect-square overflow-hidden bg-gray-50">
+        {% if product.main_image %}
+            <img src="{{ product.main_image }}" alt="{{ product.name }}" class="w-full h-full object-contain mix-blend-multiply p-4 group-hover:scale-105 transition-transform duration-300">
+        {% else %}
+            <div class="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+        {% endif %}
+        
+        {% if product.discount > 0 %}
+        <div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full">
+            {{ product.discount }}% OFF
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="p-3 md:p-4 flex-1 flex flex-col">
+        <h3 class="font-medium text-gray-800 text-sm md:text-base line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+            {{ product.name }}
+        </h3>
+        
+        <div class="text-xs text-gray-500 mb-2">
+            {% if product.variants.exists %}
+                {{ product.variants.first.weight }}
+            {% else %}
+                -
+            {% endif %}
+        </div>
+
+        <div class="mt-auto flex items-end justify-between">
+            <div>
+                <div class="flex items-baseline gap-2">
+                    <span class="font-bold text-gray-900">
+                        {% if product.variants.exists %}₹{{ product.variants.first.price }}{% else %}N/A{% endif %}
+                    </span>
+                    {% if product.variants.exists and product.variants.first.mrp > product.variants.first.price %}
+                    <span class="text-xs text-gray-400 line-through">₹{{ product.variants.first.mrp }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <button class="bg-white text-primary border border-primary px-4 py-1.5 rounded-md text-sm font-medium hover:bg-primary hover:text-white transition-all">
+                Add
+            </button>
+        </div>
+    </div>
+</a>

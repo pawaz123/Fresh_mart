@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+            <!-- Images -->
+            <div class="p-8 bg-gray-50 flex items-center justify-center border-b md:border-r border-gray-100">
+                {% if main_image %}
+                <img src="{{ main_image.image.url }}" alt="{{ product.name }}" class="max-w-full h-auto mix-blend-multiply">
+                {% endif %}
+            </div>
+
+            <!-- Details -->
+            <div class="p-6 md:p-10">
+                <div class="text-sm text-gray-500 font-medium tracking-wide uppercase mb-1">{{ product.category.name }}</div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
+                
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="bg-green-100 text-primary-dark text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                        {{ product.rating }} ★
+                    </span>
+                    <span class="text-sm text-gray-500">{{ product.reviews_count }} Reviews</span>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="font-bold text-gray-800 mb-3">Pack Sizes</h3>
+                    <div class="flex flex-wrap gap-3">
+                        {% for variant in product.variants.all %}
+                        <div class="px-4 py-2 border rounded-lg text-sm font-medium border-gray-200 text-gray-600 cursor-pointer hover:border-primary hover:text-primary">
+                            {{ variant.weight }}
+                            <div class="text-xs text-gray-500 mt-0.5">₹{{ variant.price }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-2">Description</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">{{ product.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
